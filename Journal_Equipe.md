@@ -16,17 +16,25 @@ Blocage : les bugs liés à l'environnement, comment faire la boucle pour récup
 
 # Fait le mercredi 03/02/2021 : 
 
-  -Si les lettres proposées sont présentes dans le mot à deviner, elles apparaissent/sont stockées après chaque propositions.
+  - Si les lettres proposées sont présentes dans le mot à deviner, elles apparaissent/sont stockées après chaque propositions.
   expl : _ _ _ _ _ _
          input "p"
          p _ _ _ _ _
          input "a"
          p a _ a _ _
          etc
-  -Option si la lettre proposée n'est pas dans le mot à deviner.
-  -Message de victoire si le mot proposé est correct.
-  -Message d'échec si le mot n'est pas trouvé et que le pendu est déssiné jusqu'au bout.
+  - Option si la lettre proposée n'est pas dans le mot à deviner.
+  - Message de victoire si le mot proposé est correct.
+  - Message d'échec si le mot n'est pas trouvé et que le pendu est déssiné jusqu'au bout.
   
   Plan pour demain : Commencer le niveu 2.
   
-  
+# Bilan semaine 1 04/02/2021 :
+- Pendu fini.
+- On a réussi à se connecter à l'API et utiliser les requettes souhaitées.
+- On affiche les titres en fonction des boutons selectionnés.
+
+Objectif pour la semaine prochaine :
+
+- Arriver à parcourir plus de données de l'API et afficher plus de titres de films. (Stocker plus de résultats).
+- Tenter le niveau 3, idée de bot d'horoscope.
