@@ -1,0 +1,78 @@
+start:
+    say Typing(1000)
+    say "Hello, comment t'appelles tu ?"
+    hold
+    remember username = event
+say Typing(1000)
+say Question(
+    "Bonjour {{username}}, veux tu jouer au pendu avec moi ?",
+    buttons=[Button("Oui"), Button("Non")])
+    hold
+  if (event == "Oui") {
+      say "C'est parti!"
+      goto penduInit
+  }else{
+       say "Oh le mauvais joueur!"
+  }
+
+penduInit:
+  say Typing(1000)
+  say "Je choisis un mot ... "
+  do listeMot = ["C U I S I N E", "C H A T B O T", "O R D I N A T E U R", "A E R O P O R T", "P A P I L L O N"]
+  remember mot = OneOf(listeMot) // mot au hasard 
+
+  do mot = mot.split(" ")  //fait un tableau en coupant aux espaces
+  remember motVide = []
+
+  foreach (item) in mot {   //remplit motVide du bon nombre de _ 
+    do motVide.push(" _ ")
+  }
+  remember count = 12
+  goto bonnelettre
+
+bonnelettre:
+  say motVide.join(" ").to_string()
+  
+  say "Choisis une lettre !"
+  say "Il te reste {{count}} tentative(s) ..."
+  hold
+  remember lettre = event.to_uppercase()
+  if (lettre.match_regex ("[[:alpha:]]") && lettre.length()==1){
+    goto comparaison
+  } else if (lettre == mot.join("").to_string()) {
+    say "Wouah quelle perspicacité !"
+    goto win
+  } else {
+    say "T'as pas compris ?"
+    goto bonnelettre
+  }
+    
+
+
+comparaison:  
+  if (mot.find(lettre).length()>0){
+    say "Bien joué !"
+  }else{
+    say "Hé non."
+    do count = count - 1
+    say Image("https://github.com/adatechschool/pc-csml-love-is-here/blob/main/images/pendu/pendu{{count}}.jpg?raw=true")
+  }
+  foreach (val, index) in mot {
+    if (lettre == val){
+      do motVide[index]=lettre
+    }
+  }
+  if (count == 0 ) goto perdu
+  if (motVide == mot) goto win
+  goto bonnelettre
+    
+
+perdu: 
+  say "Tu as perdu triste merde"
+  say Image("https://media.giphy.com/media/cr9vIO7NsP5cY/giphy.gif")
+  goto end 
+
+win:
+  say "Bravo jeune champion !"
+  say Image("https://media.giphy.com/media/a0h7sAqON67nO/giphy.gif")
+  goto end

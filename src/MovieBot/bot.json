@@ -1,0 +1,26 @@
+{
+  "id": "37b48da0-f09e-48a1-8e13-1001cb8c3d15",
+  "name": "Pendu",
+  "description": null,
+  "default_flow": "Default",
+  "flows": [
+    {
+      "name": "Default",
+      "description": "Simple barebones flow. Code your own chatbot from this template!",
+      "commands": []
+    },
+    {
+      "name": "OffensiveBot",
+      "description": "Simple barebones flow. Code your own chatbot from this template!",
+      "commands": []
+    },
+    {
+      "name": "randomGiF",
+      "description": "Simple barebones flow. Code your own chatbot from this template!",
+      "commands": []
+    }
+  ],
+  "files": [],
+  "functions": [],
+  "apps": []
+}

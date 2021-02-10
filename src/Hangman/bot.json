@@ -1,0 +1,49 @@
+{
+  "id": "6933fc29-512e-4ce8-bfbd-fbf07a1b1345",
+  "name": "Test",
+  "description": null,
+  "default_flow": "Default",
+  "flows": [
+    {
+      "name": "Default",
+      "description": "Simple barebones flow. Code your own chatbot from this template!",
+      "commands": []
+    }
+  ],
+  "files": [
+    {
+      "name": "hangman1.png",
+      "description": null
+    },
+    {
+      "name": "hangman2.png",
+      "description": "hangman2"
+    },
+    {
+      "name": "hangman3.png",
+      "description": null
+    },
+    {
+      "name": "hangman4.png",
+      "description": null
+    },
+    {
+      "name": "hangman5.png",
+      "description": null
+    },
+    {
+      "name": "hangman6.png",
+      "description": null
+    },
+    {
+      "name": "hangman7.png",
+      "description": null
+    },
+    {
+      "name": "hangman8.png",
+      "description": null
+    }
+  ],
+  "functions": [],
+  "apps": []
+}

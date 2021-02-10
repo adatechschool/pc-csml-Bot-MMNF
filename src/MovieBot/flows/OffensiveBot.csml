@@ -1,0 +1,57 @@
+start:
+say Question(
+  "Une petite blague ?",
+  buttons = [Button("Oh oui alors"), Button("J'aime pas l'humour")]
+)
+hold
+if (event== "Oh oui alors"){
+  goto catBlague
+} else {
+  say "Vraiment pas fun ..."
+  goto start
+}
+catBlague:
+  do tabCat =["blondes","toto","belges","ta mere","melon et meleche","blondes"]
+  do choix1 = OneOf(tabCat)
+  do choix2 = OneOf(tabCat)
+  if (choix1 == choix2) { goto catBlague }
+  say Question(
+  "Quel type de blague tu préfère ?",
+  buttons = [Button(choix1), Button(choix2)]
+  )
+hold 
+remember cat = event
+goto requete
+requete:
+  do req = HTTP("https://api.blablagues.net/?rub=blagues&cat={{cat}}")
+  do req = req.get()
+  do res = req.send()
+  do tabText = [res.data.content.text_head,res.data.content.text,res.data.content.text_hidden]
+  foreach(val,index) in tabText{
+    if(val.length() == 0){
+      do tabText.remove_at(index)
+    }
+  }
+  say Typing(1000)
+  say tabText.join("<br>").to_string()
+  say Typing(1000)
+  do gif1 = "https://media.giphy.com/media/9SIr8WmzPJNu5wlyEE/giphy.gif"
+  do gif2 = "https://media.giphy.com/media/3og0IuGb2e5U3bMIco/giphy.gif"
+  do gif3 = "https://media.giphy.com/media/88iYsvbegSUn9bSTF8/giphy.gif"
+  do gif4 = "https://media.giphy.com/media/ZqlvCTNHpqrio/giphy.gif"
+  do gif5 = "https://media.giphy.com/media/swPH6f77yLk2I/giphy.gif"
+  remember gifarr = [gif1, gif2, gif3, gif4, gif5]
+  say Typing(1000)
+  say Image(OneOf(gifarr))
+  say Typing(3000)
+  say Question(
+    "Encore ?",
+    buttons =[Button("Allez fais m'en une autre !"), Button("Sors moi de là pitié")]
+  ) 
+  hold 
+  if (event == "Allez fais m'en une autre !") 
+    goto catBlague
+  else 
+    say "On va voir ça !!"
+    say Image("https://media.giphy.com/media/Tf9bUJsxfE498vNc9z/giphy.gif")
+    goto end

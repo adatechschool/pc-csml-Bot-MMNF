@@ -1,0 +1,108 @@
+start:
+//on crée un tableau de mots, on en choisi un au hasard et on le split pour en faire un nouveau tableau
+  do words = ["t e c h n o l o g i e", "i n f o r m a t i q u e", "p a r a l l e l o g r a m m e", "a d a t e c h s c h o o l", "o r n i t h o r y n q u e", "t y r a n n o s a u r e"]
+  remember word = OneOf(words).split(" ")
+// on crée un tableau vide et on y ajoute autant de tirets qu'il y a de lettres dans le mot
+  remember underscore = []
+  foreach (val, index) in word {
+   do underscore.push(" _ ")
+  }
+do underscore = underscore.join(" ").to_string() // on transforme ce tableau en string pour l'afficher
+remember count = 0 // compteur qui servira pour l'affichage du pendu et pour savoir quand l'utilisateur.ice à perdu
+say Typing(1200)
+say "Hello ! C'est quoi ton petit nom ?"
+hold
+remember name = event // on stock de nom dans une variable
+say "Enchanté {{name}}, je suis HangMan, let's play a game together!"
+say Typing(1200)
+goto ask_a_question
+ask_a_question:
+  say Typing(1200)
+  say Question(
+    "Are you ready to die ? ",
+    buttons=[
+      Button("Yay ! 🤩", accepts=["yes", "ouais", "oui"]) as btn_y,
+      Button("No... 😭", accepts=["non", "no", "nah"]) as btn_n,
+    ]
+  )
+  hold
+  if (event.match(btn_y)) {
+    goto game 
+  }
+  else {
+    say Typing(1200)
+    say "Ok bye ! "
+    say Image("https://media.giphy.com/media/Yx84bF1bunLsyTRfVj/giphy.gif")
+  }
+game:
+  say underscore
+  say Typing(1200)
+  say "Tente une lettre !"
+  goto testLetter
+testLetter:
+// on récupère l'input de l'utilisateur.ice, si c'est le mot à trouver, on va directement à la fin de jeux.
+// si c'est une lettre présente dans le mot, on va dans la fonction replaceLetter qui remplace les tirets par les lettres
+// sinon, on va dans la fonction hang qui dessine le pendu
+  hold
+  remember letter = event
+  if (letter == word.join("")) {
+    goto win
+  }
+  if (word.find(letter).length()>=1) {
+    goto replaceLetter
+  }else {
+    goto hang
+  }
+replaceLetter:
+//on transforme le string de tirets en tableau puis on fait une boucle sur le tableau du mot pour remplacer le tiret par la bonne lettre
+  do underscore = underscore.split("  ")
+  foreach (val, index) in word {
+    //On compare l'input de l'utilisatrice et chaque lettres du mot à deviner, puis on remplce aux emplacements correspondants.
+    if (letter == val) {
+      do underscore[index] = letter
+    }
+  }
+  //On rassemble les tirets et les lettres en une string.
+  do underscore = underscore.join("  ")
+  say underscore
+  //S'il reste des tirest on renvoie au début de testLetter
+  if (underscore.contains("_")){
+    say "Bravo ! Une autre ?"
+    goto testLetter
+  }else {
+    //plus de tirets, on va win !
+    goto win
+  }
+  //à chaque fois que la lettre n'est pas présente dans le mot d'origine, on ajoute 1 au compteur.
+  //en fonction de count on affiche des dessins du pendu.
+hang:
+  do count = count + 1
+  if (count == 1){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/29fc7e77-4c4f-433e-9015-3ed912303c01/hangman1.png")
+  }if (count == 2){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/1376a8c3-96dc-444b-9f79-3ad0cbecbc9c/hangman2.png")
+  }if (count == 3){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/93e23e97-16b4-4f85-8894-d05387084097/hangman3.png")
+  }if (count == 4){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/233ca2e6-0670-487c-8f9d-9c8f15fe0561/hangman4.png")
+  }if (count == 5){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/d0d9df32-5b51-4737-bf4b-a4f43daa2296/hangman5.png")
+  }if (count == 6){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/72265076-4492-41f4-ab08-9ec163ae02ad/hangman6.png")
+  }if (count == 7){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/30094c73-856b-4267-bb98-cd3e45470ec7/hangman7.png")
+  }if (count == 8){
+    say Image("https://cdn.csml.dev/customers/9502fe57-7898-4299-ac0c-f9e83e279e84/files/e59a43e2-ec02-45c3-9ebe-387566db18ea/hangman8.png")
+    say "T'as perdu 💩"
+    goto end
+  }if (count < 8) {
+    say "Try again !"
+    goto testLetter
+  }
+
+
+win:
+  say "Bravo bg, c'est gagné !"
+  say Image("https://media.giphy.com/media/yoJC2GnSClbPOkV0eA/giphy.gif")
+  goto end
+goto end

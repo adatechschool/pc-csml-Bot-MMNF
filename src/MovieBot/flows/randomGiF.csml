@@ -1,0 +1,38 @@
+start:
+  say Question("{{_metadata.firstname}}, ça te dirait de rire pour changer ?", 
+  buttons = [Button("Oui"), Button("Non")])
+  hold
+  say Typing(1000)
+  if (event == "Oui") {
+    goto gifInit
+  }else{
+    say "Bon bha, à la prochaine...😕"
+    goto end
+  }
+
+  gifInit: 
+    say "Tape le premier mot qui te vient à l'esprit et un gif, tu recevras ..."
+    hold 
+    remember motVoulu = event
+    do req = HTTP("https://api.giphy.com/v1/gifs/search?api_key=szxI4IbwnDYNLm0UysmCnYRMiFYYurkn&q={{motVoulu}}&limit=5&offset=0&rating=g&lang=fr").set({"api_key":"szxI4IbwnDYNLm0UysmCnYRMiFYYurkn"})
+    // request URL vers API GIPHY
+    do reqGet = req.get()
+    // aller chercher dans API GIPHY
+    do resp = reqGet.send()
+    // réponse qui sera renvoyé selon la requête
+    do listGif = ["{{resp.data[0].images.downsized.url}}", 
+    "{{resp.data[1].images.downsized.url}}", 
+    "{{resp.data[2].images.downsized.url}}", 
+    "{{resp.data[3].images.downsized.url}}", 
+    "{{resp.data[4].images.downsized.url}}"]
+    //say Debug(listGif)
+    say Image(OneOf(listGif))
+    say Typing(3000)
+    say Question(
+    "Mieux vaut en rire qu'en pleurer!😉",
+    button_type="quick_reply",
+    buttons=[Button("Recommencer")]
+  )
+  hold
+  if (event == "Recommencer") goto start
+goto end
